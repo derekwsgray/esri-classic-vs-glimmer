@@ -2,10 +2,10 @@
   "name": "esri-classic-vs-glimmer",
   "version": "0.0.0",
   "private": true,
-  "description": "Small description for esri-classic-vs-glimmer goes here",
-  "repository": "",
+  "description": "Performance testbed for components wrapping ArcGIS viewer",
+  "repository": "https://github.com/derekwsgray/esri-classic-vs-glimmer.git",
   "license": "MIT",
-  "author": "",
+  "author": "Derek Gray",
   "directories": {
     "doc": "doc",
     "test": "tests"
@@ -29,6 +29,7 @@
     "@babel/eslint-parser": "^7.22.15",
     "@babel/plugin-proposal-decorators": "^7.23.2",
     "@ember/optional-features": "^2.0.0",
+    "@ember/render-modifiers": "^2.1.0",
     "@ember/string": "^3.1.1",
     "@ember/test-helpers": "^3.2.0",
     "@glimmer/component": "^1.1.2",
@@ -76,5 +77,9 @@
   },
   "ember": {
     "edition": "octane"
+  },
+  "dependencies": {
+    "@arcgis/core": "^4.28.9",
+    "stats.js": "^0.17.0"
   }
 }

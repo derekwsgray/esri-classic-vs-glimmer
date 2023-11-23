@@ -1,0 +1,21 @@
+<div class="display-flex" {{(this.trackedData.setup 500)}}>
+  <h2>Glimmer</h2>
+  <button role="button" {{on "click" this.trackedData.startOrStopSelection}}>
+    {{#if this.trackedData.isSelectionRunning}}Stop{{else}}Start{{/if}} Selections
+  </button>
+  <button role="button" {{on "click" this.trackedData.startOrStopFiltering}}>
+    {{#if this.trackedData.isFilteringRunning}}Stop{{else}}Start{{/if}} Filterings
+  </button>
+  <div>
+    <p>
+      Polylines: {{this.trackedData.routes.length}}
+    </p>
+  </div>
+</div>
+<Glimmer::EsriMap as |mapView|>
+  <Glimmer::EsriGraphicsLayer @mapView={{mapView}} as |layer|>
+    {{#each this.visibleRoutes as |route|}}
+      <Glimmer::RouteGraphic @layer={{layer}} @routeData={{route}} />
+    {{/each}}
+  </Glimmer::EsriGraphicsLayer>
+</Glimmer::EsriMap>

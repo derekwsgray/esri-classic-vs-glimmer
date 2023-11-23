@@ -6,6 +6,7 @@
 /node_modules/
 
 # misc
+/.idea/
 /.env*
 /.pnp*
 /.eslintcache

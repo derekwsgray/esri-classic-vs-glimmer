@@ -1,7 +1,14 @@
 {{page-title "EsriClassicVsGlimmer"}}
 
-{{! The following component displays Ember's default welcome message. }}
-<WelcomePage />
-{{! Feel free to remove this! }}
-
-{{outlet}}
+<div class="display-flex flex-direction-column">
+  <div class="display-flex justify-content-flex-end nav">
+    <StatsDisplay />
+    <nav>
+      <ul>
+        <li><LinkTo @route="classic-components">Classic & Computed</LinkTo></li>
+        <li><LinkTo @route="glimmer-components">Glimmer & Tracked</LinkTo></li>
+      </ul>
+    </nav>
+  </div>
+  {{outlet}}
+</div>

@@ -1,0 +1,21 @@
+<div class="display-flex" {{(this.classicData.setup 500)}}>
+  <h2>Classic</h2>
+  <button role="button" {{on "click" this.classicData.startOrStopSelection}}>
+    {{#if this.classicData.isSelectionRunning}}Stop{{else}}Start{{/if}} Selections
+  </button>
+  <button role="button" {{on "click" this.classicData.startOrStopFiltering}}>
+    {{#if this.classicData.isFilteringRunning}}Stop{{else}}Start{{/if}} Filterings
+  </button>
+  <div>
+    <p>
+      Polylines: {{this.classicData.routes.length}}
+    </p>
+  </div>
+</div>
+<Classic::EsriMap as |mapView|>
+  <Classic::EsriGraphicsLayer @mapView={{mapView}} as |layer|>
+    {{#each this.visibleRoutes as |route|}}
+      <Classic::RouteGraphic @layer={{layer}} @routeData={{route}} />
+    {{/each}}
+  </Classic::EsriGraphicsLayer>
+</Classic::EsriMap>
