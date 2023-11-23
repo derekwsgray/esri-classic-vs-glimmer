@@ -2,6 +2,7 @@ import Component from '@glimmer/component';
 import GraphicsLayer from '@arcgis/core/layers/GraphicsLayer';
 import { tracked } from '@glimmer/tracking';
 import { registerDestructor } from '@ember/destroyable';
+import { modifier } from 'ember-modifier';
 
 export default class EsriGraphicsLayerComponent extends Component {
 
@@ -13,7 +14,7 @@ export default class EsriGraphicsLayerComponent extends Component {
     registerDestructor(this, this.destroyLayer);
   }
 
-  setup = () => {
+  setup = modifier(() => {
     console.log('GLIMMER LAYER SETUP', this.args.mapView);
     if (!this.args.mapView) {
       return null;
@@ -23,7 +24,7 @@ export default class EsriGraphicsLayerComponent extends Component {
     const layer = new GraphicsLayer();
     this.args.mapView.map.add(layer);
     this.layer = layer;
-  }
+  });
 
   destroyLayer = () => {
     if (this.layer && this.layer.map) {

@@ -9,27 +9,25 @@ export default class ClassicDataService extends Service {
   @service stats;
 
   routes;
-  _visibleRouteIds;
+  visibleRouteIds;
   isSelectionRunning = false;
   isFilteringRunning = false;
-  _visibilityTogglerTimer = null;
-  _selectionTogglerTimer = null;
-  _animationFrameForSelections;
+  animationFrame;
 
   constructor() {
     super(...arguments);
 
     set(this, 'routes', []);
-    set(this, '_visibleRouteIds', []);
+    set(this, 'visibleRouteIds', []);
   }
 
   /**
    * Want to simulate a computed property based on a filtered array & lookup
    * @returns {*}
    */
-  @computed('routes', '_visibleRouteIds')
+  @computed('routes', 'visibleRouteIds')
   get visibleRoutes() {
-    const filtered = this.routes.filter(r => this._visibleRouteIds.includes(r.id));
+    const filtered = this.routes.filter(r => this.visibleRouteIds.includes(r.id));
     console.log('Visible Routes: ' + filtered.length);
     return filtered;
   }
@@ -48,17 +46,32 @@ export default class ClassicDataService extends Service {
     }
 
     set(this, 'routes', routes);
-    set(this, '_visibleRouteIds', routes.map(r => r.id));
+    set(this, 'visibleRouteIds', routes.map(r => r.id));
   }
 
-  continuouslyToggleSelected() {
-    if (this._animationFrameForSelections) {
+  toggleSelections = () => {
+    this.isSelectionRunning = !this.isSelectionRunning;
+    if (this.isSelectionRunning) {
+      this.continuouslyChangeSelected();
+    }
+  }
+
+  toggleVisibles = () => {
+    this.isFilteringRunning = !this.isFilteringRunning;
+  }
+
+  continuouslyChangeSelected() {
+    if (this.animationFrame) {
       return;
     }
 
     let boundCallback;
 
     function loop() {
+      if (!this.isSelectionRunning) {
+        return;
+      }
+
       this.stats.begin();
       requestAnimationFrame(boundCallback);
 
@@ -71,15 +84,21 @@ export default class ClassicDataService extends Service {
         set(this.routes[randomIndex], 'isSelected', true);
       }
 
+      if (this.isFilteringRunning) {
+        this.changeVisibles();
+      } else if (this.routes.length !== this.visibleRouteIds) {
+        set(this, 'visibleRouteIds', this.routes.map(r => r.id));
+      }
+
       this.stats.end();
     }
 
     boundCallback = loop.bind(this);
-    this._animationFrameForSelections = requestAnimationFrame(boundCallback);
+    this.animationFrame = requestAnimationFrame(boundCallback);
 
   }
 
-  continuouslyToggleVisibles() {
+  changeVisibles() {
     // Select a random subset of routes to toggle
     const numberOfRoutesToToggle = Math.floor(Math.random() * this.routes.length);
     const subset = [];
@@ -88,62 +107,14 @@ export default class ClassicDataService extends Service {
       subset.push(this.routes[randomIndex].id);
     }
 
-    set(this, '_visibleRouteIds', subset);
-    console.log(`Toggling ${numberOfRoutesToToggle} (${this._visibleRouteIds.length})`);
-
-    // Schedule the next toggle
-    this._visibilityTogglerTimer = later(this, this.continuouslyToggleVisibles, 250); // Adjust the time interval as needed
-  }
-
-  startOrStopSelection = () => {
-    if (this.isSelectionRunning) {
-      if (this._selectionTogglerTimer) {
-        cancel(this._selectionTogglerTimer);
-        this._selectionTogglerTimer = null;
-      }
-
-      set(this, 'isSelectionRunning', false);
-    } else {
-      set(this, 'isSelectionRunning', true);
-      // Automate changes
-      this.continuouslyToggleSelected();
-    }
-  }
-
-  startOrStopFiltering = () => {
-    if (this.isFilteringRunning) {
-      if (this._visibilityTogglerTimer) {
-        cancel(this._visibilityTogglerTimer);
-        this._visibilityTogglerTimer = null;
-      }
-      set(this, 'isFilteringRunning', false);
-    } else {
-      set(this, 'isFilteringRunning', true);
-      // Automate changes
-      this.continuouslyToggleVisibles();
-    }
+    set(this, 'visibleRouteIds', subset);
+    // console.log(`Toggling ${numberOfRoutesToToggle} (${this.visibleRouteIds.length})`);
   }
 
   shutdown = () => {
-    if (this.isSelectionRunning) {
-      if (this._selectionTogglerTimer) {
-        cancel(this._selectionTogglerTimer);
-        this._selectionTogglerTimer = null;
-      }
-
-      set(this, 'isSelectionRunning', false);
-    }
-
-    if (this.isFilteringRunning) {
-      if (this._visibilityTogglerTimer) {
-        cancel(this._visibilityTogglerTimer);
-        this._visibilityTogglerTimer = null;
-      }
-      set(this, 'isFilteringRunning', false);
-    }
-
+    set(this, 'isSelectionRunning', false);
+    set(this, 'isFilteringRunning', false);
     set(this, 'routes', []);
-    set(this, '_visibleRouteIds', []);
-
+    set(this, 'visibleRouteIds', []);
   }
 }
