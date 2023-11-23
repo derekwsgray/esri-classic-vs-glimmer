@@ -3,6 +3,7 @@ import { set } from '@ember/object';
 import GraphicsLayer from '@arcgis/core/layers/GraphicsLayer';
 
 export default class EsriGraphicsLayerComponent extends Component {
+  tagName = '';
   // Args
   mapView = null;
 
@@ -10,6 +11,7 @@ export default class EsriGraphicsLayerComponent extends Component {
   layer = null;
 
   didReceiveAttrs() {
+    super.didReceiveAttrs();
     if (!this.mapView || this.layer) {
       return;
     }

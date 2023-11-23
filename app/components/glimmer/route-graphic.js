@@ -5,10 +5,7 @@ import SimpleLineSymbol from '@arcgis/core/symbols/SimpleLineSymbol';
 import { registerDestructor } from '@ember/destroyable';
 import { modifier } from 'ember-modifier';
 
-let graphicSetupCount = 0;
-
 export default class RouteGraphicComponent extends Component {
-
   graphic = null;
 
   constructor() {
@@ -18,12 +15,10 @@ export default class RouteGraphicComponent extends Component {
   }
 
   setup = modifier(() => {
-
     if (!this.args.layer || !this.args.routeData || this.graphic) {
       return;
     }
 
-    //console.log('GLIMMER GRAPHIC SETUP', ++graphicSetupCount, this.args.layer);
     // console.log('Setting up graphic: ', this.args.routeData);
     const polyline = new Polyline({
       paths: this.args.routeData.paths,
@@ -47,8 +42,8 @@ export default class RouteGraphicComponent extends Component {
     if (!this.graphic) {
       this.setup();
       if (!this.graphic) {
-      return;
-    }
+        return;
+      }
       //return;
     }
 
@@ -64,5 +59,5 @@ export default class RouteGraphicComponent extends Component {
     if (this.graphic && this.args.layer) {
       this.args.layer.remove(this.graphic);
     }
-  }
+  };
 }

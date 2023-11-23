@@ -1,6 +1,5 @@
 import Service, { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
-import { later, cancel } from '@ember/runloop';
 import TrackedRoute from 'esri-classic-vs-glimmer/models/tracked-route';
 import { generateRandomCoordinates } from 'esri-classic-vs-glimmer/utils';
 
@@ -17,12 +16,14 @@ export default class TrackedDataService extends Service {
    * @returns {*}
    */
   get visibleRoutes() {
-    const filtered = this.routes.filter(r => this.visibleRouteIds.includes(r.id));
+    const filtered = this.routes.filter((r) =>
+      this.visibleRouteIds.includes(r.id),
+    );
     console.log('Visible Routes: ' + filtered.length);
     return filtered;
   }
 
-  setup = (numberOfRoutes)=> {
+  setup = (numberOfRoutes) => {
     // Recreate the data
     const routes = [];
 
@@ -36,19 +37,19 @@ export default class TrackedDataService extends Service {
     }
 
     this.routes = routes;
-    this.visibleRouteIds = routes.map(r => r.id);
-  }
+    this.visibleRouteIds = routes.map((r) => r.id);
+  };
 
   toggleSelections = () => {
     this.isSelectionRunning = !this.isSelectionRunning;
     if (this.isSelectionRunning) {
       this.continuouslyChangeSelected();
     }
-  }
+  };
 
   toggleVisibles = () => {
     this.isFilteringRunning = !this.isFilteringRunning;
-  }
+  };
 
   continuouslyChangeSelected() {
     if (this.animationFrame) {
@@ -65,10 +66,12 @@ export default class TrackedDataService extends Service {
       this.stats.begin();
       requestAnimationFrame(boundCallback);
 
-      this.routes.forEach(r => r.isSelected = false);
+      this.routes.forEach((r) => (r.isSelected = false));
 
       // Select a random subset of routes to toggle to true
-      const numberOfRoutesToSelect = Math.floor(Math.random() * this.routes.length);
+      const numberOfRoutesToSelect = Math.floor(
+        Math.random() * this.routes.length,
+      );
       for (let i = 0; i < numberOfRoutesToSelect; i++) {
         const randomIndex = Math.floor(Math.random() * this.routes.length);
         this.routes[randomIndex].isSelected = true;
@@ -77,7 +80,7 @@ export default class TrackedDataService extends Service {
       if (this.isFilteringRunning) {
         this.changeVisibles();
       } else if (this.routes.length !== this.visibleRouteIds) {
-        this.visibleRouteIds = this.routes.map(r => r.id);
+        this.visibleRouteIds = this.routes.map((r) => r.id);
       }
 
       this.stats.end();
@@ -105,5 +108,5 @@ export default class TrackedDataService extends Service {
     this.isFilteringRunning = false;
     this.routes = [];
     this.visibleRouteIds = [];
-  }
+  };
 }

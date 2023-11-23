@@ -1,7 +1,7 @@
-import { modifier } from "ember-modifier";
+import { modifier } from 'ember-modifier';
 import { set } from '@ember/object';
 import Map from '@arcgis/core/Map';
-import MapView from "@arcgis/core/views/MapView";
+import MapView from '@arcgis/core/views/MapView';
 
 export default modifier((element, [mapComponent]) => {
   const map = new Map({
@@ -16,4 +16,4 @@ export default modifier((element, [mapComponent]) => {
   });
 
   set(mapComponent, 'mapView', mapView); // Work for both kinds of components.
-})
+});

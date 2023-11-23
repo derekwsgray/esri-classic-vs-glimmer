@@ -1,9 +1,9 @@
 <div class="display-flex" {{this.setupData 500}}>
   <h2>Classic</h2>
-  <button role="button" {{on "click" this.classicData.toggleSelections}}>
+  <button type="button" {{on "click" this.classicData.toggleSelections}}>
     {{#if this.classicData.isSelectionRunning}}Stop{{else}}Start{{/if}} Update Loop
   </button>
-  <button role="button" {{on "click" this.classicData.toggleVisibles}}>
+  <button type="button" {{on "click" this.classicData.toggleVisibles}}>
     {{#if this.classicData.isFilteringRunning}}Stop{{else}}Include{{/if}} Filterings
   </button>
   <div>

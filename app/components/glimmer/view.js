@@ -3,10 +3,9 @@ import { service } from '@ember/service';
 import { modifier } from 'ember-modifier';
 
 export default class ViewComponent extends Component {
-
   @service trackedData;
 
-  setupData = modifier((element, positional, named) => {
+  setupData = modifier((element, positional) => {
     this.trackedData.setup(positional[0]);
   });
 
@@ -19,5 +18,4 @@ export default class ViewComponent extends Component {
 
     super.willDestroy(...arguments);
   }
-
 }

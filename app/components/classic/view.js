@@ -4,10 +4,10 @@ import { computed } from '@ember/object';
 import { modifier } from 'ember-modifier';
 
 export default class ViewComponent extends Component {
-
+  tagName = '';
   @service classicData;
 
-  setupData = modifier((element, positional, named) => {
+  setupData = modifier((element, positional) => {
     this.classicData.setup(positional[0]);
   });
 
@@ -21,5 +21,4 @@ export default class ViewComponent extends Component {
 
     super.willDestroy(...arguments);
   }
-
 }

@@ -1,11 +1,9 @@
 import Service, { service } from '@ember/service';
 import { computed, set } from '@ember/object';
-import { later, cancel } from '@ember/runloop';
 import ClassicRoute from 'esri-classic-vs-glimmer/models/classic-route';
 import { generateRandomCoordinates } from 'esri-classic-vs-glimmer/utils';
 
 export default class ClassicDataService extends Service {
-
   @service stats;
 
   routes;
@@ -27,12 +25,14 @@ export default class ClassicDataService extends Service {
    */
   @computed('routes', 'visibleRouteIds')
   get visibleRoutes() {
-    const filtered = this.routes.filter(r => this.visibleRouteIds.includes(r.id));
+    const filtered = this.routes.filter((r) =>
+      this.visibleRouteIds.includes(r.id),
+    );
     console.log('Visible Routes: ' + filtered.length);
     return filtered;
   }
 
-  setup = (numberOfRoutes)=> {
+  setup = (numberOfRoutes) => {
     // Recreate the data
     const routes = [];
 
@@ -46,19 +46,23 @@ export default class ClassicDataService extends Service {
     }
 
     set(this, 'routes', routes);
-    set(this, 'visibleRouteIds', routes.map(r => r.id));
-  }
+    set(
+      this,
+      'visibleRouteIds',
+      routes.map((r) => r.id),
+    );
+  };
 
   toggleSelections = () => {
     this.isSelectionRunning = !this.isSelectionRunning;
     if (this.isSelectionRunning) {
       this.continuouslyChangeSelected();
     }
-  }
+  };
 
   toggleVisibles = () => {
     this.isFilteringRunning = !this.isFilteringRunning;
-  }
+  };
 
   continuouslyChangeSelected() {
     if (this.animationFrame) {
@@ -75,10 +79,12 @@ export default class ClassicDataService extends Service {
       this.stats.begin();
       requestAnimationFrame(boundCallback);
 
-      this.routes.forEach(r => set(r, 'isSelected', false));
+      this.routes.forEach((r) => set(r, 'isSelected', false));
 
       // Select a random subset of routes to toggle to true
-      const numberOfRoutesToToggle = Math.floor(Math.random() * this.routes.length);
+      const numberOfRoutesToToggle = Math.floor(
+        Math.random() * this.routes.length,
+      );
       for (let i = 0; i < numberOfRoutesToToggle; i++) {
         const randomIndex = Math.floor(Math.random() * this.routes.length);
         set(this.routes[randomIndex], 'isSelected', true);
@@ -87,7 +93,11 @@ export default class ClassicDataService extends Service {
       if (this.isFilteringRunning) {
         this.changeVisibles();
       } else if (this.routes.length !== this.visibleRouteIds) {
-        set(this, 'visibleRouteIds', this.routes.map(r => r.id));
+        set(
+          this,
+          'visibleRouteIds',
+          this.routes.map((r) => r.id),
+        );
       }
 
       this.stats.end();
@@ -95,12 +105,13 @@ export default class ClassicDataService extends Service {
 
     boundCallback = loop.bind(this);
     this.animationFrame = requestAnimationFrame(boundCallback);
-
   }
 
   changeVisibles() {
     // Select a random subset of routes to toggle
-    const numberOfRoutesToToggle = Math.floor(Math.random() * this.routes.length);
+    const numberOfRoutesToToggle = Math.floor(
+      Math.random() * this.routes.length,
+    );
     const subset = [];
     for (let i = 0; i < numberOfRoutesToToggle; i++) {
       const randomIndex = Math.floor(Math.random() * this.routes.length);
@@ -116,5 +127,5 @@ export default class ClassicDataService extends Service {
     set(this, 'isFilteringRunning', false);
     set(this, 'routes', []);
     set(this, 'visibleRouteIds', []);
-  }
+  };
 }

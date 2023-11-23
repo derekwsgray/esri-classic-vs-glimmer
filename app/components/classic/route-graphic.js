@@ -5,7 +5,7 @@ import Polyline from '@arcgis/core/geometry/Polyline';
 import SimpleLineSymbol from '@arcgis/core/symbols/SimpleLineSymbol';
 
 export default class RouteGraphicComponent extends Component {
-
+  tagName = '';
   // Args
   layer = null;
   routeData = null;
@@ -14,6 +14,7 @@ export default class RouteGraphicComponent extends Component {
   graphic = null;
 
   didReceiveAttrs() {
+    super.didReceiveAttrs();
     if (!this.layer || !this.routeData || this.graphic) {
       return;
     }

@@ -5,7 +5,6 @@ import { registerDestructor } from '@ember/destroyable';
 import { modifier } from 'ember-modifier';
 
 export default class EsriGraphicsLayerComponent extends Component {
-
   @tracked layer = null;
 
   constructor() {
@@ -31,5 +30,5 @@ export default class EsriGraphicsLayerComponent extends Component {
       //console.log('Destroying layer');
       this.layer.map.remove(this.layer);
     }
-  }
+  };
 }
