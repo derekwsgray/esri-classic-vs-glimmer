@@ -12,7 +12,7 @@ export default class StatsService extends Service {
   }
 
   appendStatsDisplay = (element) => {
-    console.log('Appending to ', element);
+    // console.log('Appending to ', element);
 
     // 0: fps, 1: ms, 2: mb, 3+: custom
     this.stats.showPanel(0);

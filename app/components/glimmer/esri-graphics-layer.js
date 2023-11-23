@@ -14,7 +14,7 @@ export default class EsriGraphicsLayerComponent extends Component {
   }
 
   setup = modifier(() => {
-    console.log('GLIMMER LAYER SETUP', this.args.mapView);
+    // console.log('GLIMMER LAYER SETUP', this.args.mapView);
     if (!this.args.mapView) {
       return null;
     }

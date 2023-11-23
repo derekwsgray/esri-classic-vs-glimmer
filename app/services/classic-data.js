@@ -28,7 +28,7 @@ export default class ClassicDataService extends Service {
     const filtered = this.routes.filter((r) =>
       this.visibleRouteIds.includes(r.id),
     );
-    console.log('Visible Routes: ' + filtered.length);
+    // console.log('Visible Routes: ' + filtered.length);
     return filtered;
   }
 
