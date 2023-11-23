@@ -123,6 +123,7 @@ export default class ClassicDataService extends Service {
   }
 
   shutdown = () => {
+    this.animationFrame = null;
     set(this, 'isSelectionRunning', false);
     set(this, 'isFilteringRunning', false);
     set(this, 'routes', []);

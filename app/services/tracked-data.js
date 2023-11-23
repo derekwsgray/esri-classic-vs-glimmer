@@ -104,6 +104,7 @@ export default class TrackedDataService extends Service {
   }
 
   shutdown = () => {
+    this.animationFrame = null;
     this.isSelectionRunning = false;
     this.isFilteringRunning = false;
     this.routes = [];
