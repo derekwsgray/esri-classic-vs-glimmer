@@ -60,6 +60,7 @@ export default class TrackedDataService extends Service {
 
     function loop() {
       if (!this.isSelectionRunning) {
+        this.animationFrame = null;
         return;
       }
 

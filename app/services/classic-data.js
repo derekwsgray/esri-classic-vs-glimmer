@@ -54,14 +54,14 @@ export default class ClassicDataService extends Service {
   };
 
   toggleSelections = () => {
-    this.isSelectionRunning = !this.isSelectionRunning;
+    set(this, 'isSelectionRunning', !this.isSelectionRunning);
     if (this.isSelectionRunning) {
       this.continuouslyChangeSelected();
     }
   };
 
   toggleVisibles = () => {
-    this.isFilteringRunning = !this.isFilteringRunning;
+    set(this, 'isFilteringRunning', !this.isFilteringRunning);
   };
 
   continuouslyChangeSelected() {
@@ -73,6 +73,7 @@ export default class ClassicDataService extends Service {
 
     function loop() {
       if (!this.isSelectionRunning) {
+        this.animationFrame = null;
         return;
       }
 
