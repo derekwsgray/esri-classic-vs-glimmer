@@ -11,6 +11,7 @@ export default class TrackedDataService extends Service {
   @tracked isSelectionRunning = false;
   @tracked isFilteringRunning = false;
   animationFrame;
+
   /**
    * Want to simulate a computed property based on a filtered array & lookup
    * @returns {*}
