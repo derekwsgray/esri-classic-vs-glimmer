@@ -1,10 +1,10 @@
 import { tracked } from '@glimmer/tracking';
 
 export default class TrackedRoute {
-  @tracked id;
+  id;
   @tracked isSelected = false;
-  @tracked isHighlighted = false;
-  @tracked paths = [];
+  isHighlighted = false;
+  paths = [];
 
   get color() {
     if (this.isSelected) {
