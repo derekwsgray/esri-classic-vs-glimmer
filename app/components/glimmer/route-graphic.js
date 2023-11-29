@@ -1,11 +1,11 @@
 import Component from '@glimmer/component';
+import { cached } from '@glimmer/tracking';
 import Graphic from '@arcgis/core/Graphic';
 import Polyline from '@arcgis/core/geometry/Polyline';
 import SimpleLineSymbol from '@arcgis/core/symbols/SimpleLineSymbol';
 import { registerDestructor } from '@ember/destroyable';
 
 export default class RouteGraphicComponent extends Component {
-  graphic = null;
 
   constructor() {
     super(...arguments);
@@ -13,9 +13,10 @@ export default class RouteGraphicComponent extends Component {
     registerDestructor(this, this.destroyGraphic);
   }
 
-  setup = () => {
-    if (!this.args.layer || !this.args.routeData || this.graphic) {
-      return;
+  @cached
+  get graphic() {
+    if (!this.args.layer) {
+      return null;
     }
 
     // console.log('Setting up graphic: ', this.args.routeData);
@@ -28,21 +29,23 @@ export default class RouteGraphicComponent extends Component {
       width: 4,
     });
 
-    this.graphic = new Graphic({
+    const graphic = new Graphic({
       geometry: polyline,
       symbol: lineSymbol,
     });
 
     //console.log(`Adding graphic ${this.args.routeData.id}`);
-    this.args.layer.add(this.graphic);
+    this.args.layer.add(graphic);
+
+    return graphic;
   };
 
   updateGraphic = () => {
     if (!this.graphic) {
       return;
     }
-
     //console.log('updating graphic ' + this.args.routeData.id);
+
     this.graphic.symbol = new SimpleLineSymbol({
       color: this.args.routeData.color,
       width: 4,
