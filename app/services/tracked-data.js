@@ -6,10 +6,10 @@ import { generateRandomCoordinates } from 'esri-classic-vs-glimmer/utils';
 export default class TrackedDataService extends Service {
   @service stats;
 
-  @tracked routes = [];
+  routes = [];
   @tracked visibleRouteIds = [];
-  @tracked isSelectionRunning = false;
-  @tracked isFilteringRunning = false;
+  isSelectionRunning = false;
+  isFilteringRunning = false;
   animationFrame;
 
   /**

@@ -14,6 +14,9 @@
     </p>
   </div>
 </div>
+
+{{log 'Prints multiple times if dirtied => ' this.visibleRoutes}}
+
 <Classic::EsriMap as |mapView|>
   <Classic::EsriGraphicsLayer @mapView={{mapView}} as |layer|>
     {{#each this.visibleRoutes as |route|}}

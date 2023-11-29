@@ -19,6 +19,8 @@ export default class RouteGraphicComponent extends Component {
       return;
     }
 
+    console.log('updating graphic');
+
     const polyline = new Polyline({
       paths: this.routeData.paths,
     });
