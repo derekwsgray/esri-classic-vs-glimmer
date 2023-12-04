@@ -8,6 +8,8 @@ let graphicCount = 0;
 
 export default class RouteGraphicComponent extends Component {
 
+  graphic = null;
+
   createGraphic = () => {
     (async () => {
       await Promise.resolve();
@@ -31,7 +33,7 @@ export default class RouteGraphicComponent extends Component {
       //          a resource would be better for property-based destruction.
       //
       //          Or a separate component for the "graphic"
-      //console.log(`Adding graphic ${this.args.routeData.id}`);
+      // console.log(`Adding graphic ${this.args.routeData.id}`);
       this.args.layer.add(graphic);
 
       this.graphic = graphic;
@@ -57,7 +59,7 @@ export default class RouteGraphicComponent extends Component {
   };
 
   willDestroy() {
-    //console.log('Destroying graphic ' + this.args.routeData.id);
+    // console.log('Destroying graphic ' + this.args.routeData.id);
     if (this.graphic && this.args.layer) {
       this.args.layer.remove(this.graphic);
     }
