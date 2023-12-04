@@ -1,4 +1,6 @@
-<div class="display-flex" {{this.setupData 500}}>
+{{(this.trackedData.setup 500)}}
+
+<div class="display-flex">
   <h2>Glimmer</h2>
   <button type="button" {{on "click" this.trackedData.toggleSelections}}>
     {{#if this.trackedData.isSelectionRunning}}Stop{{else}}Start{{/if}} Update Loop

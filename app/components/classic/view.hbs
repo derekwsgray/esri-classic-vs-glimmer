@@ -1,4 +1,6 @@
-<div class="display-flex" {{this.setupData 500}}>
+{{(this.classicData.setup 500)}}
+
+<div class="display-flex">
   <h2>Classic</h2>
   <button type="button" {{on "click" this.classicData.toggleSelections}}>
     {{#if this.classicData.isSelectionRunning}}Stop{{else}}Start{{/if}} Update Loop

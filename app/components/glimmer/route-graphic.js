@@ -3,59 +3,64 @@ import { cached } from '@glimmer/tracking';
 import Graphic from '@arcgis/core/Graphic';
 import Polyline from '@arcgis/core/geometry/Polyline';
 import SimpleLineSymbol from '@arcgis/core/symbols/SimpleLineSymbol';
-import { registerDestructor } from '@ember/destroyable';
+
+let graphicCount = 0;
 
 export default class RouteGraphicComponent extends Component {
 
-  constructor() {
-    super(...arguments);
+  createGraphic = () => {
+    (async () => {
+      await Promise.resolve();
 
-    registerDestructor(this, this.destroyGraphic);
-  }
+      // console.log('Setting up graphic: ', this.args.routeData);
+      const polyline = new Polyline({
+        paths: this.args.routeData.paths,
+      });
 
-  @cached
-  get graphic() {
-    if (!this.args.layer) {
-      return null;
-    }
+      const lineSymbol = new SimpleLineSymbol({
+        color: this.args.routeData.color,
+        width: 4,
+      });
 
-    // console.log('Setting up graphic: ', this.args.routeData);
-    const polyline = new Polyline({
-      paths: this.args.routeData.paths,
-    });
+      const graphic = new Graphic({
+        geometry: polyline,
+        symbol: lineSymbol,
+      });
 
-    const lineSymbol = new SimpleLineSymbol({
-      color: this.args.routeData.color,
-      width: 4,
-    });
+      // WARNING: this doesn't remove if any tracked data in this getter changes
+      //          a resource would be better for property-based destruction.
+      //
+      //          Or a separate component for the "graphic"
+      //console.log(`Adding graphic ${this.args.routeData.id}`);
+      this.args.layer.add(graphic);
 
-    const graphic = new Graphic({
-      geometry: polyline,
-      symbol: lineSymbol,
-    });
-
-    //console.log(`Adding graphic ${this.args.routeData.id}`);
-    this.args.layer.add(graphic);
-
-    return graphic;
+      this.graphic = graphic;
+    })();
   };
 
-  updateGraphic = () => {
-    if (!this.graphic) {
-      return;
-    }
-    //console.log('updating graphic ' + this.args.routeData.id);
+  updateColor = () => {
+    // Always invalidate when color changes
+    this.args.routeData.color;
 
-    this.graphic.symbol = new SimpleLineSymbol({
-      color: this.args.routeData.color,
-      width: 4,
-    });
+    (async () => {
+      await Promise.resolve();
+      if (!this.graphic) {
+        return;
+      }
+      //console.log('updating graphic ' + this.args.routeData.id);
+
+      this.graphic.symbol = new SimpleLineSymbol({
+        color: this.args.routeData.color,
+        width: 4,
+      });
+    })();
   };
 
-  destroyGraphic = () => {
+  willDestroy() {
     //console.log('Destroying graphic ' + this.args.routeData.id);
     if (this.graphic && this.args.layer) {
       this.args.layer.remove(this.graphic);
     }
-  };
+    super.willDestroy(...arguments);
+  }
 }
