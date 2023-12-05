@@ -1,0 +1,17 @@
+{{(this.directDriveData.setup 500)}}
+
+<div class="display-flex">
+  <h2>Direct Drive</h2>
+  <button type="button" {{on "click" this.directDriveData.toggleSelections}}>
+    {{#if this.directDriveData.isSelectionRunning}}Stop{{else}}Start{{/if}} Update Loop
+  </button>
+  <button type="button" {{on "click" this.directDriveData.toggleVisibles}}>
+    {{#if this.directDriveData.isFilteringRunning}}Stop{{else}}Include{{/if}} Filterings
+  </button>
+  <div>
+    <p>
+      Polylines: {{this.directDriveData.routes.length}}
+    </p>
+  </div>
+</div>
+<DirectDrive::EsriMap />

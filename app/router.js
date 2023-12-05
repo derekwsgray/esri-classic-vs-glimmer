@@ -9,4 +9,5 @@ export default class Router extends EmberRouter {
 Router.map(function () {
   this.route('classic-components');
   this.route('glimmer-components');
+  this.route('direct-drive');
 });
