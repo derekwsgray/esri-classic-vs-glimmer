@@ -80,7 +80,7 @@ export default class ClassicDataService extends Service {
       this.stats.begin();
       requestAnimationFrame(boundCallback);
 
-      this.routes.forEach((r) => set(r, 'isSelected', false));
+      // this.routes.forEach((r) => set(r, 'isSelected', false));
 
       // Select a random subset of routes to toggle to true
       const numberOfRoutesToToggle = Math.floor(
@@ -88,7 +88,8 @@ export default class ClassicDataService extends Service {
       );
       for (let i = 0; i < numberOfRoutesToToggle; i++) {
         const randomIndex = Math.floor(Math.random() * this.routes.length);
-        set(this.routes[randomIndex], 'isSelected', true);
+        const route = this.routes[randomIndex];
+        set(route, 'isSelected', !route.isSelected);
       }
 
       if (this.isFilteringRunning) {

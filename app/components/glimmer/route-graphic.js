@@ -1,5 +1,4 @@
 import Component from '@glimmer/component';
-import { cached } from '@glimmer/tracking';
 import Graphic from '@arcgis/core/Graphic';
 import Polyline from '@arcgis/core/geometry/Polyline';
 import SimpleLineSymbol from '@arcgis/core/symbols/SimpleLineSymbol';

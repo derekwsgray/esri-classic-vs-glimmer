@@ -68,15 +68,16 @@ export default class TrackedDataService extends Service {
       this.stats.begin();
       requestAnimationFrame(boundCallback);
 
-      this.routes.forEach((r) => (r.isSelected = false));
+      // this.routes.forEach((r) => (r.isSelected = false));
 
       // Select a random subset of routes to toggle to true
-      const numberOfRoutesToSelect = Math.floor(
+      const numberOfRoutesToToggle = Math.floor(
         Math.random() * this.routes.length,
       );
-      for (let i = 0; i < numberOfRoutesToSelect; i++) {
+      for (let i = 0; i < numberOfRoutesToToggle; i++) {
         const randomIndex = Math.floor(Math.random() * this.routes.length);
-        this.routes[randomIndex].isSelected = true;
+        const route = this.routes[randomIndex];
+        route.isSelected = !route.isSelected;
       }
 
       if (this.isFilteringRunning) {
