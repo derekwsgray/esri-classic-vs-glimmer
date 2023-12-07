@@ -1,7 +1,11 @@
 # esri-classic-vs-glimmer
 
-This README outlines the details of collaborating on this Ember application.
-A short introduction of this app could easily go here.
+This experiment tests the performance of updating graphics generated on an [ESRI ArcGIS](https://developers.arcgis.com/javascript/latest/) map view, which itself is implemented with WebGL.
+
+This repo has 3 versions of the same test, under individual routes:
+ - Ember Components with Computed properties (each graphic as a component, driven off the data.)
+ - Glimmer Components with Tracked (each graphic as a component, driven off the data.)
+ - Direct Drive (_no_ components for individual graphics, just manual calls to the 3rd-party API to update after data changes.) 
 
 ## Prerequisites
 
